@@ -1,5 +1,5 @@
 #!/bin/bash
-apt-get install python-pip python-dev build-essential rubygems-integration ruby-dev rubygems python-dev libffi-dev -y
+apt-get install python3-pip python-dev build-essential rubygems-integration ruby-dev rubygems python-dev libffi-dev -y
 #Ubuntu 12 -> rubygems
 #Ubuntu 14 -> rubygems-integration
 #Ubuntu 16,18 -> ruby-dev
