@@ -8,15 +8,15 @@ python zeratool.py challenges/bof1 -u ctf.hackucf.org -p 9000
 #python zeratool.py challenges/easy_format -u tctf.competitivecyber.club -p 7801
 #python zeratool.py challenges/medium_format -u tctf.competitivecyber.club -p 7802
 
-#Format string leak
-python zeratool.py challenges/easy_format
-#Format string point to win function
-python zeratool.py challenges/medium_format
-#Format string point to shellcode
-#Sometimes r2 debug doesn't give us matching shellcode
-#locations to our normal running environment. and sometimes
-#running it twice makes it work
-python zeratool.py challenges/hard_format 
+# Format string leak
+#python zeratool.py challenges/easy_format
+# Format string point to win function
+#python zeratool.py challenges/medium_format
+# Format string point to shellcode
+# Sometimes r2 debug doesn't give us matching shellcode
+# locations to our normal running environment. and sometimes
+# running it twice makes it work
+#python zeratool.py challenges/hard_format
 
 #Buffer overflow point to shellcode
 python zeratool.py challenges/demo_bin
