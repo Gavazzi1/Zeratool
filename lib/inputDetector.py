@@ -10,7 +10,7 @@ def checkInputType(binary_name):
     p = angr.Project(binary_name, load_options={"auto_load_libs": False})
 
     # Functions which MIGHT grab from STDIN
-    reading_functions = ['fgets', 'gets', 'scanf']
+    reading_functions = ['fgets', 'gets', 'scanf', '__isoc99_scanf']
     socket_functions = ['socket', 'bind', 'listen']
     file_functions = ['fopen', 'fread', 'fscanf']
     binary_functions = p.loader.main_object.imports.keys()
@@ -27,8 +27,3 @@ def checkInputType(binary_name):
         elif x in reading_functions:
             return 'STDIN'
     return 'ARG'
-
-    # TODO remove this
-    #if any([x in reading_functions for x in binary_functions]):
-    #    return "STDIN"
-    #return "ARG"

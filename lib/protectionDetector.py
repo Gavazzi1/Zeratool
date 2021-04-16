@@ -1,7 +1,7 @@
 from pwn import *
 
+
 def getProperties(binary_name):
-    
     properties = {}
     binary = ELF(binary_name)
     properties['aslr'] = binary.aslr
@@ -14,4 +14,3 @@ def getProperties(binary_name):
     properties['relro'] = binary.relro
 
     return properties
-
