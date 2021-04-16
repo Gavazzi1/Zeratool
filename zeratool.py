@@ -30,6 +30,7 @@ def main():
 
     # Detect problem type
     properties = dict()
+
     properties['libc'] = args.libc
     properties['file'] = args.file
     properties['input_type'] = inputDetector.checkInputType(args.file)

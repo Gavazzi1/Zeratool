@@ -98,9 +98,7 @@ def checkOverflow(binary_name, inputType="STDIN"):
         stdin_str = end_state.posix.dumps(0)
         run_environ['input'] = stdin_str
     elif inputType in ['FILE', 'SOCKET']:
-        # TODO search through fds to find some data
-        file_str = b''  # this is never actually used by the program. keeping it around just in case
-        run_environ['input'] = file_str
+        run_environ['input'] = b''
     elif inputType == 'ARG':
         arg_str = end_state.solver.eval(arg, cast_to=bytes)
         run_environ['input'] = arg_str
