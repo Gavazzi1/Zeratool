@@ -20,6 +20,7 @@ def main():
     parser.add_argument('-u', '--url', help="Remote URL to pwn", default="")
     parser.add_argument('-p', '--port', help="Remote port to pwn", default="0")
     parser.add_argument('-v', '--verbose', help="Verbose mode", action="store_true", default=False)
+    parser.add_argument('-m', '--maxpkt', help="Max packet size", default=None, type=int)
 
     args = parser.parse_args()
     if args.file is None:
@@ -36,7 +37,7 @@ def main():
     properties['input_type'] = inputDetector.checkInputType(args.file)
     print("[+] Checking pwn type...")
     print("[+] Checking for overflow pwn type...")
-    properties['pwn_type'] = overflowDetector.checkOverflow(args.file, inputType=properties['input_type'])
+    properties['pwn_type'] = overflowDetector.checkOverflow(args.file, args.maxpkt, inputType=properties['input_type'])
 
     # Get problem mitigations
     print("[+] Getting binary protections")

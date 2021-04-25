@@ -3,6 +3,7 @@ import angr
 import claripy
 import timeout_decorator
 
+from lib import maxbuf
 from lib.hookFour import hookFour
 
 
@@ -44,7 +45,7 @@ def overflow_filter(simgr):
     return simgr
 
 
-def checkOverflow(binary_name, inputType="STDIN"):
+def checkOverflow(binary_name, max_pkt, inputType="STDIN"):
     p = angr.Project(binary_name, auto_load_libs=False)
 
     # Hook rands for performance (?)
@@ -68,13 +69,24 @@ def checkOverflow(binary_name, inputType="STDIN"):
         exit(1)
         return  # for IDE
 
-    # setting max packet size may be essential for detecting vulnerabilities, but as it increases, performance tanks
-    state.libc.max_packet_size = 256  # must be increased to allow exploits requiring large reads
+    # find max packet size
+    if max_pkt is None:
+        max_buf = maxbuf.maxbuf(p)
+        if max_buf > 0:
+            max_pkt = int(max_buf * 1.1)  # AEG found that 10% bigger than largest buffer is sufficient
+            print("[+] Estimated max buffer size is {}. Setting max packet size to {}".format(max_buf, max_pkt))
+            state.libc.max_packet_size = max_pkt
+        else:
+            print("[~] Could not estimate max buffer size. Max packet size is {}".format(state.libc.max_packet_size))
+    else:
+        state.libc.max_packet_size = max_pkt
+
     state.globals['inputType'] = inputType
     simgr = p.factory.simgr(state, save_unconstrained=True)
 
     run_environ = dict()
     run_environ['type'] = None
+    run_environ['max_pkt'] = state.libc.max_packet_size
     end_state = None
 
     # Lame way to do a timeout
