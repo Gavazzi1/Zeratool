@@ -1,3 +1,15 @@
+# CS 5770 Relevant Information
+
+First, build the Docker image using the Dockerfile in this repository.
+
+To run Zeratool against the test cases discussed in the paper, do the following from inside the Docker image:
+```
+cd /Zeratool
+python3 zeratool.py testbins/server
+python3 zeratool.py testbins/vba
+```
+
+
 # Zeratool
 Automatic Exploit Generation (AEG) and remote flag capture for exploitable CTF problems
 
