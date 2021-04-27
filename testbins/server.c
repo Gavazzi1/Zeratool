@@ -14,12 +14,12 @@
 void func(int sockfd)
 {
     char buf[32];
-    int len = 0;
+    size_t len;
     
     read(sockfd, &len, sizeof(len));
     read(sockfd, buf, len);
 
-    printf("%s\n", buf);
+    write(sockfd, buf, len);
 }
   
 // Driver function
@@ -31,12 +31,18 @@ int main()
     // socket create and verification
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd == -1) {
-        printf("socket creation failed...\n");
-        exit(0);
+        printf("Socket creation failed...\n");
+        exit(1);
     }
     else
         printf("Socket successfully created..\n");
     bzero(&servaddr, sizeof(servaddr));
+
+    int reuse = 1;
+    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (const char*)&reuse, sizeof(reuse)) < 0) {
+        printf("setsockopt failed..\n");
+        exit(1);
+    }
   
     // assign IP, PORT
     servaddr.sin_family = AF_INET;
@@ -45,16 +51,16 @@ int main()
   
     // Binding newly created socket to given IP and verification
     if ((bind(sockfd, (SA*)&servaddr, sizeof(servaddr))) != 0) {
-        printf("socket bind failed...\n");
-        exit(0);
+        printf("Socket bind failed...\n");
+        exit(1);
     }
     else
-        printf("Socket successfully binded..\n");
+        printf("Socket bind succeeded..\n");
   
     // Now server is ready to listen and verification
     if ((listen(sockfd, 5)) != 0) {
         printf("Listen failed...\n");
-        exit(0);
+        exit(1);
     }
     else
         printf("Server listening..\n");
@@ -63,11 +69,11 @@ int main()
     // Accept the data packet from client and verification
     connfd = accept(sockfd, (SA*)&cli, &len);
     if (connfd < 0) {
-        printf("server acccept failed...\n");
-        exit(0);
+        printf("Server accept failed...\n");
+        exit(1);
     }
     else
-        printf("server acccept the client...\n");
+        printf("Server accept the client...\n");
   
     // Function for chatting between client and server
     func(connfd);

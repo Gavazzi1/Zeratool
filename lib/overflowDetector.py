@@ -30,7 +30,6 @@ def overflow_filter(simgr):
                     if state.posix.dumps(fd):
                         print("        file descriptor {}: {}".format(fd, state.posix.dumps(fd)))
 
-                # TODO check socket dumps
             elif inputType == 'ARG':
                 arg = state.globals['arg']
                 constraintstr = state.solver.eval(arg, cast_to=bytes)
