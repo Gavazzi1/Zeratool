@@ -9,6 +9,13 @@ python3 zeratool.py testbins/server
 python3 zeratool.py testbins/vba
 ```
 
+The files modified for this project are:
+ - zeratool.py
+ - lib/overflowDetector.py
+ - lib/overflowExploiter.py
+ - lib/overflowExploitSender.py
+ - lib/maxbuf.py
+
 
 # Zeratool
 Automatic Exploit Generation (AEG) and remote flag capture for exploitable CTF problems
